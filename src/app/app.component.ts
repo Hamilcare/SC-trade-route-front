@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import {NgForm} from '@angular/forms';
 
 @Component({
   selector: 'app-root',
@@ -8,3 +9,7 @@ import { Component } from '@angular/core';
 export class AppComponent {
   title = 'sc-front';
 }
+
+
+
+

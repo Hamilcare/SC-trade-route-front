@@ -1,0 +1,49 @@
+<h2>Form component</h2>
+
+
+<form (ngSubmit) ="onSubmit(f)" #f="ngForm">
+  <div class ="form row">
+      <label for="" class="col-sm-1 col-form-label">Departure: </label>
+      <div class="col-sm-3">
+        <select class ="form-control" name="departure" ngModel>
+            <option *ngFor="let s of stations" [ngValue]="s" >{{s.name}}</option>
+        </select>
+        <small id="departureHelp" class="form-text text-muted">The departure station of your journey.</small>
+      </div>
+
+      <label for="" class="col-sm-1 col-form-label">Arrival: </label>
+      <div class="col-sm-3">
+        <select class ="form-control" name="arrival" ngModel>
+            <option *ngFor="let s of stations" [ngValue]="s" >{{s.name}}</option>
+        </select>
+        <small id="arrivalHelp" class="form-text text-muted">The arrival station of your journey.</small>
+      </div>
+  </div>
+
+  <div class="form row ">
+    <label for="" class="col-sm-1 col-form-label">SCU</label>
+    <div class="col-sm-3">
+      <input class="form-control" type="number" min="0" name="scu" [ngModel]>
+      <small id="scuHelp" class="form-text text-muted">Your cargo space available</small>
+    </div>
+
+    <label for="" class="col-sm-1 col-form-label">UEC</label>
+    <div class="col-sm-3">
+      <input class="form-control" type="number" min="0" name="maxuec" [ngModel] step="1000">
+      <small id="scuHelp" class="form-text text-muted">The maximum investment you are ready to do</small>
+    </div>
+  </div>
+
+  <div class="col-sm-8 text-center">
+    <button type="submit" class="btn btn-primary">Submit</button>
+  </div>
+</form>
+
+<!--
+  <div class="form-group row">
+    <label for="" class="col-sm-2 col-form-label">label</label>
+    <div class="col-sm-3">
+      <small id="Help" class="form-text text-muted">Help</small>
+    </div>
+  </div>
+-->
