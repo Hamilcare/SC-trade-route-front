@@ -8,12 +8,12 @@ export class ReferentielService {
 
     constructor(private http: HttpClient) {
     }
-    actionUrl = 'http://127.0.0.1:4300';
+    actionUrl = 'http://barnab2.tk:24300';
     getObject() {
       return this.http.get(this.actionUrl + '/api/object');
     }
 
-    getTrip(departure, arrival, maxuec, scu) {
+    getTrip(departure, arrival, safety, maxuec, scu) {
       let url = this.actionUrl + '/api/trip?';
       if ( departure ) {
         url += 'departure=' + departure + '&';
@@ -21,13 +21,15 @@ export class ReferentielService {
       if ( arrival ) {
         url += 'arrival=' + arrival + '&';
       }
+      if ( safety ) {
+        url += 'safety=' + safety + '&';
+      }
       if ( maxuec ) {
         url += 'maxuec=' + maxuec + '&';
       }
       if ( scu ) {
         url += 'scu=' + scu ;
       }
-      console.log(url);
       return this.http.get(url);
     }
 

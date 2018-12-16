@@ -1,84 +1,146 @@
-<h2>Form component</h2>
+<div class="container-fluid">
+  <h2 style="text-align: center">Star Citizen Trade Planner</h2>
+  <form (ngSubmit)="onSubmit(f)" #f="ngForm" class="container-fluid">
+    <div class="form row">
+      <div class="col-sm-2"></div>
+      <label for="" class="col-sm-1 col-form-label">Departure: </label>
+      <div class="col-sm-3">
+        <select class="form-control" name="departure" ngModel>
+          <option></option>
+          <option *ngFor="let s of stations" [ngValue]="s">{{ s }}</option>
+        </select>
+        <small id="departureHelp" class="form-text text-muted"
+          >The departure station of your journey.</small
+        >
+      </div>
 
-<form (ngSubmit)="onSubmit(f)" #f="ngForm">
-  <div class="form row">
-    <label for="" class="col-sm-1 col-form-label">Departure: </label>
-    <div class="col-sm-3">
-      <select class="form-control" name="departure" ngModel>
-        <option *ngFor="let s of stations" [ngValue]="s">{{ s }}</option>
-      </select>
-      <small id="departureHelp" class="form-text text-muted"
-        >The departure station of your journey.</small
-      >
+      <label for="" class="col-sm-1 col-form-label">Arrival: </label>
+      <div class="col-sm-3">
+        <select class="form-control" name="arrival" ngModel>
+          <option></option>
+          <option *ngFor="let s of stations" [value]="s">{{ s }}</option>
+        </select>
+        <small id="arrivalHelp" class="form-text text-muted"
+          >The arrival station of your journey.</small
+        >
+      </div>
     </div>
 
-    <label for="" class="col-sm-1 col-form-label">Arrival: </label>
-    <div class="col-sm-3">
-      <select class="form-control" name="arrival" ngModel>
-        <option *ngFor="let s of stations" [value]="s">{{ s }}</option>
-      </select>
-      <small id="arrivalHelp" class="form-text text-muted"
-        >The arrival station of your journey.</small
-      >
-    </div>
-  </div>
+    <div class="form row ">
+      <div class="col-sm-2"></div>
+      <label for="" class="col-sm-1 col-form-label">SCU</label>
+      <div class="col-sm-3">
+        <input
+          class="form-control"
+          type="number"
+          min="0"
+          name="scu"
+          [ngModel]
+          value="1"
+          required
+          #scu="ngModel"
+        />
+        <div
+          *ngIf="f.submitted && !uec.valid"
+          style="color: red; font-size: 8pt"
+        >
+          SCU is required
+        </div>
+        <small id="scuHelp" class="form-text text-muted"
+          >Your cargo space available</small
+        >
+      </div>
 
-  <div class="form row ">
-    <label for="" class="col-sm-1 col-form-label">SCU</label>
-    <div class="col-sm-3">
-      <input
-        class="form-control"
-        type="number"
-        min="0"
-        name="scu"
-        [ngModel]
-        value="1"
-      />
-      <small id="scuHelp" class="form-text text-muted"
-        >Your cargo space available</small
-      >
+      <label for="" class="col-sm-1 col-form-label">UEC</label>
+      <div class="col-sm-3">
+        <input
+          class="form-control"
+          type="number"
+          min="0"
+          name="maxuec"
+          [ngModel]
+          step="1000"
+          value="1000"
+          required
+          #uec="ngModel"
+        />
+        <div
+          *ngIf="f.submitted && !uec.valid"
+          style="color: rgb(250, 0, 0); font-size: 8pt"
+        >
+          UEC is required
+        </div>
+        <small id="scuHelp" class="form-text text-muted"
+          >The maximum investment you are ready to do</small
+        >
+      </div>
+    </div>
+    <div *ngIf="isSafe" class="text-center">
+      <div class="btn-group btn-group-toggle" data-toggle="buttons">
+        <label class="btn btn-success active">
+          <input
+            type="radio"
+            name="options"
+            id="option1"
+            autocomplete="off"
+            (click)="isSafe = !isSafe"
+          />
+          Safe Travel Only
+        </label>
+      </div>
     </div>
 
-    <label for="" class="col-sm-1 col-form-label">UEC</label>
-    <div class="col-sm-3">
-      <input
-        class="form-control"
-        type="number"
-        min="0"
-        name="maxuec"
-        [ngModel]
-        step="1000"
-        value="1000"
-      />
-      <small id="scuHelp" class="form-text text-muted"
-        >The maximum investment you are ready to do</small
-      >
+    <div *ngIf="!isSafe" class="text-center">
+      <div class="btn-group btn-group-toggle" data-toggle="buttons">
+        <label class="btn btn-danger active">
+          <input
+            type="radio"
+            name="options"
+            id="option1"
+            autocomplete="off"
+            (click)="isSafe = !isSafe"
+          />
+          I'm not afraid
+        </label>
+      </div>
     </div>
-  </div>
 
-  <div class="col-sm-8 text-center">
-    <button type="submit" class="btn btn-primary">Submit</button>
-  </div>
-</form>
+    <div
+      class="text-center"
+      style="padding-block-start: 10pt; padding-block-end: 10pt"
+    >
+      <button type="submit" class="btn btn-primary">Submit</button>
+    </div>
+  </form>
+</div>
 
 <div *ngIf="trips" class="container-fluid">
-  <table class="table col-sm-8 table-striped">
+  <table class="table col-sm-8 table-striped container-fluid">
     <thead>
       <th>Departure</th>
       <th>Buy</th>
       <th>Number</th>
       <th>Arrival</th>
       <th>Profit</th>
+      <th>Safety</th>
     </thead>
     <tbody>
-      <tr *ngFor="let trip of trips" >
-      <td>{{trip.departure}}</td>
-      <td>{{trip.merchandise}}</td>
-      <td>{{trip.canbuy}}</td>
-      <td>{{trip.arrival}}</td>
-      <td>{{trip.profit}}</td>
-    </tr>
-
+      <tr *ngFor="let trip of trips">
+        <td>{{ trip.departure }}</td>
+        <td>{{ trip.merchandise }}</td>
+        <td>{{ trip.canbuy | number: "1.0-0" }}</td>
+        <td>{{ trip.arrival }}</td>
+        <td>{{ trip.profit | number: "1.0-0" }}</td>
+        <td *ngIf="trip.safety.toString() === 'safe'" style="color: green">
+          {{ trip.safety }}
+        </td>
+        <td *ngIf="trip.safety.toString() === 'dangerous'" style="color: red">
+          {{ trip.safety }}
+        </td>
+      </tr>
     </tbody>
   </table>
+  <div *ngIf="!tripFound" class="container-fluid" style="text-align: center">
+    <h2>No suitable trade route found according to given constraints</h2>
+  </div>
 </div>
